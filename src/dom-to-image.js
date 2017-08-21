@@ -15,6 +15,7 @@
     };
 
     var domtoimage = {
+        draw: draw,
         toSvg: toSvg,
         toPng: toPng,
         toJpeg: toJpeg,
@@ -146,6 +147,10 @@
             domtoimage.impl.options.cacheBust = defaultOptions.cacheBust;
         } else {
             domtoimage.impl.options.cacheBust = options.cacheBust;
+        }
+
+        if(typeof(options.proxy) !== 'undefined') {
+            domtoimage.impl.options.proxy = options.proxy;
         }
     }
 
@@ -466,6 +471,9 @@
                 // Cache bypass so we dont have CORS issues with cached images
                 // Source: https://developer.mozilla.org/en/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest#Bypassing_the_cache
                 url += ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime();
+            }
+            if (domtoimage.impl.options.proxy && url.indexOf('localhost') === -1) {
+              url = domtoimage.impl.options.proxy + '?url=' + encodeURIComponent(url);
             }
 
             return new Promise(function (resolve) {
