@@ -472,7 +472,7 @@
                 // Source: https://developer.mozilla.org/en/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest#Bypassing_the_cache
                 url += ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime();
             }
-            if (domtoimage.impl.options.proxy && url.indexOf('localhost') === -1) {
+            if (domtoimage.impl.options.proxy && url.indexOf('localhost') === -1 && !url.startsWith('/')) {
               url = domtoimage.impl.options.proxy + '?url=' + encodeURIComponent(url);
             }
 
